@@ -38,14 +38,15 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
     public boolean addUser(User user) {
         try (Connection con = connect()) {
             PreparedStatement stmt = con.prepareStatement("INSERT INTO"
-                    + " USERS(NAME, SURNAME, EMAIL, PHONE, PROFILE_DESCRIPTION, ADDRESS)"
-                    + " VALUES(?, ?, ?, ?, ?, ?)");
+                    + " USERS(NAME, SURNAME, EMAIL, PHONE, PROFILE_DESCRIPTION, ADDRESS, BIRTH_DATE)"
+                    + " VALUES(?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPhone());
             stmt.setString(5, user.getProfileDescription());
             stmt.setString(6, user.getAddress());
+            stmt.setDate(7, user.getBirthDate());
             return stmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,7 +112,8 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
                     + " EMAIL = ?,"
                     + " PHONE = ?,"
                     + " PROFILE_DESCRIPTION = ?,"
-                    + " ADDRESS = ?"
+                    + " ADDRESS = ?,"
+                    + " BIRTH_DATE = ?"
                     + " WHERE ID = ?");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
@@ -119,7 +121,8 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
             stmt.setString(4, user.getPhone());
             stmt.setString(5, user.getProfileDescription());
             stmt.setString(6, user.getAddress());
-            stmt.setInt(7, user.getId());
+            stmt.setDate(7, user.getBirthDate());
+            stmt.setInt(8, user.getId());
             return stmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
