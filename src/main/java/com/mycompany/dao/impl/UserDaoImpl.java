@@ -36,12 +36,13 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
     public boolean addUser(User user) {
         try (Connection con = connect()) {
             PreparedStatement stmt = con.prepareStatement("INSERT INTO"
-                    + " USERS(NAME, SURNAME, EMAIL, PHONE)"
-                    + " VALUES(?, ?, ?, ?)");
+                    + " USERS(NAME, SURNAME, EMAIL, PHONE, PROFILE_DESCRIPTION)"
+                    + " VALUES(?, ?, ?, ?, ?)");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPhone());
+            stmt.setString(5, user.getProfileDescription());
             return stmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,13 +106,15 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
                     + " NAME = ?,"
                     + " SURNAME = ?,"
                     + " EMAIL = ?,"
-                    + " PHONE = ?"
+                    + " PHONE = ?,"
+                    + " PROFILE_DESCRIPTION = ?"
                     + " WHERE ID = ?");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPhone());
-            stmt.setInt(5, user.getId());
+            stmt.setString(5, user.getProfileDescription());
+            stmt.setInt(6, user.getId());
             return stmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
