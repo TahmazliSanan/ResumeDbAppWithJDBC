@@ -9,6 +9,7 @@ public class User {
     private String surname;
     private String email;
     private String phone;
+    private String profileDescription;
     private Date birthDate;
     private Country birthPlace;
     private Country nationality;
@@ -72,6 +73,14 @@ public class User {
         this.phone = phone;
     }
 
+    public String getProfileDescription() {
+        return profileDescription;
+    }
+
+    public void setProfileDescription(String profileDescription) {
+        this.profileDescription = profileDescription;
+    }
+
     public Date getBirthDate() {
         return birthDate;
     }
@@ -96,8 +105,16 @@ public class User {
         this.nationality = nationality;
     }
 
+    public List<UserSkill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<UserSkill> skills) {
+        this.skills = skills;
+    }
+
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + ", phone=" + phone + ", birthDate=" + birthDate + ", birthPlace=" + birthPlace + ", nationality=" + nationality + '}';
+        return "User{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + ", phone=" + phone + ", profileDescription=" + profileDescription + ", birthDate=" + birthDate + ", birthPlace=" + birthPlace + ", nationality=" + nationality + ", skills=" + skills + '}';
     }
 }
