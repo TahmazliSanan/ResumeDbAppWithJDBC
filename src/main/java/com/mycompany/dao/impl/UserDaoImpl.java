@@ -23,6 +23,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
         String email = rs.getString("email");
         String phone = rs.getString("phone");
         String profileDescription = rs.getString("profile_description");
+        String address = rs.getString("address");
         Date birthDate = rs.getDate("birth_date");
         int birthPlaceId = rs.getInt("birth_place_id");
         String birthPlaceStr = rs.getString("birth_place");
@@ -30,20 +31,21 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
         String nationalityStr = rs.getString("nationality");
         Country birthPlace = new Country(birthPlaceId, birthPlaceStr, null);
         Country nationality = new Country(nationalityId, null, nationalityStr);
-        return new User(id, name, surname, email, phone, profileDescription, birthDate, birthPlace, nationality);
+        return new User(id, name, surname, email, phone, profileDescription, address, birthDate, birthPlace, nationality);
     }
     
     @Override
     public boolean addUser(User user) {
         try (Connection con = connect()) {
             PreparedStatement stmt = con.prepareStatement("INSERT INTO"
-                    + " USERS(NAME, SURNAME, EMAIL, PHONE, PROFILE_DESCRIPTION)"
-                    + " VALUES(?, ?, ?, ?, ?)");
+                    + " USERS(NAME, SURNAME, EMAIL, PHONE, PROFILE_DESCRIPTION, ADDRESS)"
+                    + " VALUES(?, ?, ?, ?, ?, ?)");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPhone());
             stmt.setString(5, user.getProfileDescription());
+            stmt.setString(6, user.getAddress());
             return stmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,14 +110,16 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
                     + " SURNAME = ?,"
                     + " EMAIL = ?,"
                     + " PHONE = ?,"
-                    + " PROFILE_DESCRIPTION = ?"
+                    + " PROFILE_DESCRIPTION = ?,"
+                    + " ADDRESS = ?"
                     + " WHERE ID = ?");
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPhone());
             stmt.setString(5, user.getProfileDescription());
-            stmt.setInt(6, user.getId());
+            stmt.setString(6, user.getAddress());
+            stmt.setInt(7, user.getId());
             return stmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
