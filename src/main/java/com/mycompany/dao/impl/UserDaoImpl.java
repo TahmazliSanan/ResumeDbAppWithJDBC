@@ -22,6 +22,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
         String surname = rs.getString("surname");
         String email = rs.getString("email");
         String phone = rs.getString("phone");
+        String profileDescription = rs.getString("profile_description");
         Date birthDate = rs.getDate("birth_date");
         int birthPlaceId = rs.getInt("birth_place_id");
         String birthPlaceStr = rs.getString("birth_place");
@@ -29,7 +30,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
         String nationalityStr = rs.getString("nationality");
         Country birthPlace = new Country(birthPlaceId, birthPlaceStr, null);
         Country nationality = new Country(nationalityId, null, nationalityStr);
-        return new User(id, name, surname, email, phone, birthDate, birthPlace, nationality);
+        return new User(id, name, surname, email, phone, profileDescription, birthDate, birthPlace, nationality);
     }
     
     @Override
