@@ -37,9 +37,11 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
     @Override
     public boolean addUser(User user) {
         try (Connection con = connect()) {
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO"
-                    + " USERS(NAME, SURNAME, EMAIL, PHONE, PROFILE_DESCRIPTION, ADDRESS, BIRTH_DATE)"
-                    + " VALUES(?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement stmt = con.prepareStatement("""
+                                                            INSERT INTO 
+                                                            USERS(NAME, SURNAME, EMAIL, PHONE, PROFILE_DESCRIPTION, ADDRESS, BIRTH_DATE) 
+                                                            VALUES(?, ?, ?, ?, ?, ?, ?)
+                                                            """);
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
@@ -106,15 +108,18 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
     @Override
     public boolean updateUser(User user) {
         try (Connection con = connect()) {
-            PreparedStatement stmt = con.prepareStatement("UPDATE USERS SET"
-                    + " NAME = ?,"
-                    + " SURNAME = ?,"
-                    + " EMAIL = ?,"
-                    + " PHONE = ?,"
-                    + " PROFILE_DESCRIPTION = ?,"
-                    + " ADDRESS = ?,"
-                    + " BIRTH_DATE = ?"
-                    + " WHERE ID = ?");
+            PreparedStatement stmt = con.prepareStatement("""
+                                                            UPDATE USERS SET 
+                                                            NAME = ?, 
+                                                            SURNAME = ?, 
+                                                            EMAIL = ?, 
+                                                            PHONE = ?, 
+                                                            PROFILE_DESCRIPTION = ?, 
+                                                            ADDRESS = ?, 
+                                                            BIRTH_DATE = ?,
+                                                            BIRTH_PLACE_ID = ?
+                                                            WHERE ID = ?
+                                                            """);
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
             stmt.setString(3, user.getEmail());
@@ -122,7 +127,8 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
             stmt.setString(5, user.getProfileDescription());
             stmt.setString(6, user.getAddress());
             stmt.setDate(7, user.getBirthDate());
-            stmt.setInt(8, user.getId());
+            stmt.setInt(8, user.getBirthPlace().getId());
+            stmt.setInt(9, user.getId());
             return stmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,8 +140,9 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
     public boolean removeUser(int id) {
         try (Connection con = connect()) {
             Statement stmt = con.createStatement();
-            return stmt.execute("DELETE FROM USERS"
-                    + " WHERE ID = " + id);
+            return stmt.execute("""
+                                DELETE FROM USERS WHERE ID = 
+                                """ + id);
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
