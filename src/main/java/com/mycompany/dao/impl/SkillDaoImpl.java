@@ -4,6 +4,7 @@ import com.mycompany.dao.inter.AbstractDao;
 import com.mycompany.dao.inter.SkillDaoInter;
 import com.mycompany.entity.Skill;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,6 +21,40 @@ public class SkillDaoImpl extends AbstractDao implements SkillDaoInter {
     }
     
     @Override
+    public boolean addSkill(Skill skill) {
+        try (Connection con = connect()) {
+            PreparedStatement stmt = con.prepareStatement("INSERT INTO"
+                    + " SKILLS(NAME)"
+                    + " VALUES(?)");
+            stmt.setString(1, skill.getName());
+            return stmt.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(SkillDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    @Override
+    public Skill getSkillById(int id) {
+        Skill result = null;
+        try (Connection con = connect()) {
+            Statement stmt = con.createStatement();        
+            stmt.execute("""
+                            SELECT *
+                            FROM SKILLS
+                            WHERE ID = 
+                        """ + id);
+            ResultSet rs = stmt.getResultSet();
+            while (rs.next()) {
+                result = getSkill(rs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SkillDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    @Override
     public List<Skill> getAllSkills() {
         List<Skill> result = new ArrayList<>();
         try (Connection con = connect()) {
@@ -33,8 +68,39 @@ public class SkillDaoImpl extends AbstractDao implements SkillDaoInter {
                 result.add(getSkill(rs));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SkillDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
+    }
+
+    @Override
+    public boolean updateSkill(Skill skill) {
+        try (Connection con = connect()) {
+            PreparedStatement stmt = con.prepareStatement("""
+                                                            UPDATE SKILLS SET 
+                                                            NAME = ?, 
+                                                            WHERE ID = ?
+                                                            """);
+            stmt.setString(1, skill.getName());
+            stmt.setInt(2, skill.getId());
+            return stmt.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(SkillDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean removeSkill(int id) {
+        try (Connection con = connect()) {
+            Statement stmt = con.createStatement();
+            return stmt.execute("""
+                                DELETE FROM SKILLS 
+                                WHERE ID = 
+                                """ + id);
+        } catch (SQLException ex) {
+            Logger.getLogger(SkillDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 }
