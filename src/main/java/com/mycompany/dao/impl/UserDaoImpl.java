@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserDaoImpl extends AbstractDao implements UserDaoInter {
-    private User getUser(ResultSet rs) throws SQLException {
+    private User getUser(ResultSet rs) throws Exception {
         int id = rs.getInt("id");
         String name = rs.getString("name");
         String surname = rs.getString("surname");
@@ -50,7 +49,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
             stmt.setString(6, user.getAddress());
             stmt.setDate(7, user.getBirthDate());
             return stmt.execute();
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -75,7 +74,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
             while (rs.next()) {
                 result = getUser(rs);
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
@@ -99,7 +98,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
             while (rs.next()) {
                 result.add(getUser(rs));
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
@@ -130,7 +129,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
             stmt.setInt(8, user.getBirthPlace().getId());
             stmt.setInt(9, user.getId());
             return stmt.execute();
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -143,7 +142,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
             return stmt.execute("""
                                 DELETE FROM USERS WHERE ID = 
                                 """ + id);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }

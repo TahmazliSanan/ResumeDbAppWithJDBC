@@ -8,14 +8,13 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class EmploymentHistoryDaoImpl extends AbstractDao implements EmploymentHistoryDaoInter {
-    private EmploymentHistory getEmploymentHistory(ResultSet rs) throws SQLException {
+    private EmploymentHistory getEmploymentHistory(ResultSet rs) throws Exception {
         String header = rs.getString("header");
         Date beginDate = rs.getDate("begin_date");
         Date endDate = rs.getDate("end_date");
@@ -39,7 +38,7 @@ public class EmploymentHistoryDaoImpl extends AbstractDao implements EmploymentH
             while (rs.next()) {
                 result.add(getEmploymentHistory(rs));
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;

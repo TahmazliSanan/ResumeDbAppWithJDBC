@@ -8,14 +8,13 @@ import com.mycompany.entity.UserSkill;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserSkillDaoImpl extends AbstractDao implements UserSkillDaoInter {
-    private UserSkill getUserSkill(ResultSet rs) throws SQLException {
+    private UserSkill getUserSkill(ResultSet rs) throws Exception {
         int userId = rs.getInt("id");
         int skillId = rs.getInt("skill_id");
         String skillName = rs.getString("skill_name");
@@ -44,7 +43,7 @@ public class UserSkillDaoImpl extends AbstractDao implements UserSkillDaoInter {
             while (rs.next()) {
                 result.add(getUserSkill(rs));
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;

@@ -6,7 +6,6 @@ import com.mycompany.entity.Skill;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SkillDaoImpl extends AbstractDao implements SkillDaoInter {
-    private Skill getSkill(ResultSet rs) throws SQLException {
+    private Skill getSkill(ResultSet rs) throws Exception {
         int id = rs.getInt("id");
         String name = rs.getString("name");
         return new Skill(id, name);
@@ -28,7 +27,7 @@ public class SkillDaoImpl extends AbstractDao implements SkillDaoInter {
                     + " VALUES(?)");
             stmt.setString(1, skill.getName());
             return stmt.execute();
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(SkillDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -48,7 +47,7 @@ public class SkillDaoImpl extends AbstractDao implements SkillDaoInter {
             while (rs.next()) {
                 result = getSkill(rs);
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(SkillDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
@@ -67,7 +66,7 @@ public class SkillDaoImpl extends AbstractDao implements SkillDaoInter {
             while (rs.next()) {
                 result.add(getSkill(rs));
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(SkillDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
@@ -84,7 +83,7 @@ public class SkillDaoImpl extends AbstractDao implements SkillDaoInter {
             stmt.setString(1, skill.getName());
             stmt.setInt(2, skill.getId());
             return stmt.execute();
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(SkillDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -98,7 +97,7 @@ public class SkillDaoImpl extends AbstractDao implements SkillDaoInter {
                                 DELETE FROM SKILLS 
                                 WHERE ID = 
                                 """ + id);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(SkillDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }

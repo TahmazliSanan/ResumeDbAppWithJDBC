@@ -6,7 +6,6 @@ import com.mycompany.entity.Country;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CountryDaoImpl extends AbstractDao implements CountryDaoInter {
-    private Country getCountry(ResultSet rs) throws SQLException {
+    private Country getCountry(ResultSet rs) throws Exception {
         int id = rs.getInt("id");
         String name = rs.getString("name");
         String nationality = rs.getString("nationality");
@@ -30,7 +29,7 @@ public class CountryDaoImpl extends AbstractDao implements CountryDaoInter {
             stmt.setString(1, country.getName());
             stmt.setString(2, country.getNationality());
             return stmt.execute();
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(CountryDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -50,7 +49,7 @@ public class CountryDaoImpl extends AbstractDao implements CountryDaoInter {
             while (rs.next()) {
                 result = getCountry(rs);
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(CountryDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
@@ -69,7 +68,7 @@ public class CountryDaoImpl extends AbstractDao implements CountryDaoInter {
             while (rs.next()) {
                 result.add(getCountry(rs));
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(CountryDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
@@ -88,7 +87,7 @@ public class CountryDaoImpl extends AbstractDao implements CountryDaoInter {
             stmt.setString(2, country.getNationality());
             stmt.setInt(3, country.getId());
             return stmt.execute();
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(CountryDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -102,7 +101,7 @@ public class CountryDaoImpl extends AbstractDao implements CountryDaoInter {
                                 DELETE FROM COUNTRIES 
                                 WHERE ID = 
                                 """ + id);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(CountryDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
